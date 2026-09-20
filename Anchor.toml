@@ -1,0 +1,21 @@
+skip_local_validator = true
+
+[toolchain]
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+vault = "Bpr5BTDa9v8HWSk6grQ7BSfkAKj5SaqUJYtk6BwY9N8V"
+escrow = "2r3Em2vsuSfcCcU9qPDMM7fHQ2hDUWDDehwkJkpJHjYt"
+in_kind_vault = "8TGDjdyvJTcrW6H4ge6TANuxTcm48wWasPWJx9s21uHc"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "cargo test"
+
+[hooks]
