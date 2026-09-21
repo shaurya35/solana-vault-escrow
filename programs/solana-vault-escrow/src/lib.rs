@@ -3,7 +3,7 @@ use anchor_lang::{
     system_program::{transfer, Transfer},
 };
 
-declare_id!("Bpr5BTDa9v8HWSk6grQ7BSfkAKj5SaqUJYtk6BwY9N8V");
+declare_id!("AcHkrwz4uVrpue7ja19ezxSNfZDKTUucRjw3yQd4oXW1");
 
 pub const STATE_SEED: &[u8] = b"state";
 pub const VAULT_SEED: &[u8] = b"vault";
@@ -63,9 +63,9 @@ pub mod vault {
                 &ctx.accounts.system_program,
                 amount,
             )?;
-
-            Ok(())
         }
+    
+        Ok(())
     }
 }
 
@@ -80,10 +80,10 @@ fn transfer_from_vault<'info>(
 
     let signer_seeds: &[&[&[u8]]] = &[&[VAULT_SEED, state_key.as_ref(), &[state.vault_bump]]];
 
-    let cpi_accounts = Transfer(
+    let cpi_accounts = Transfer{
         from: vault.to_account_info(),
         to: owner.clone(),
-    );
+    };
 
     transfer(
         CpiContext::new_with_signer(system_program.key(), cpi_accounts, signer_seeds),
@@ -94,15 +94,15 @@ fn transfer_from_vault<'info>(
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     #[account(mut)]
-    pub owner: Signer<'info>
+    pub owner: Signer<'info>,
     #[account(
         init,
         payer = owner,
-        space = 8 + VaultState::INIT_SPACe,
+        space = 8 + VaultState::INIT_SPACE,
         seeds = [STATE_SEED, owner.key().as_ref()],
         bump,
     )]
-    pub state: Account<'info, VaultState>
+    pub state: Account<'info, VaultState>,
     #[account(
         seeds = [VAULT_SEED, state.key().as_ref()],
         bump,

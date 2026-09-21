@@ -7,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-vault = "Bpr5BTDa9v8HWSk6grQ7BSfkAKj5SaqUJYtk6BwY9N8V"
+solana_vault_escrow = "AcHkrwz4uVrpue7ja19ezxSNfZDKTUucRjw3yQd4oXW1"
 escrow = "2r3Em2vsuSfcCcU9qPDMM7fHQ2hDUWDDehwkJkpJHjYt"
 in_kind_vault = "8TGDjdyvJTcrW6H4ge6TANuxTcm48wWasPWJx9s21uHc"
 
