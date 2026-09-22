@@ -1,3 +1,4 @@
+use solana_vault_escrow as vault;
 use {
     anchor_lang::{
         prelude::Pubkey,
@@ -10,7 +11,6 @@ use {
     solana_signer::Signer,
     solana_transaction::versioned::VersionedTransaction,
 };
-use solana_vault_escrow as vault;
 
 fn send(
     svm: &mut LiteSVM,
@@ -39,16 +39,22 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
     let owner = Keypair::new();
     let attacker = Keypair::new();
 
-    let (state, _) = Pubkey::find_program_address(&[vault::STATE_SEED, owner.pubkey().as_ref()], &program_id);
+    let (state, _) =
+        Pubkey::find_program_address(&[vault::STATE_SEED, owner.pubkey().as_ref()], &program_id);
 
-    let (vault_pda, _) = Pubkey::find_program_address(&[vault::VAULT_SEED, state.as_ref()], &program_id);
+    let (vault_pda, _) =
+        Pubkey::find_program_address(&[vault::VAULT_SEED, state.as_ref()], &program_id);
 
     let mut svm = LiteSVM::new();
 
     svm.add_program_from_file(
         program_id,
-        concat!(env!("CARGO_TARGET_TMPDIR"), "/../deploy/solana_vault_escrow.so"),
-    ).unwrap();
+        concat!(
+            env!("CARGO_TARGET_TMPDIR"),
+            "/../deploy/solana_vault_escrow.so"
+        ),
+    )
+    .unwrap();
 
     svm.airdrop(&owner.pubkey(), 2_000_000_000).unwrap();
     svm.airdrop(&attacker.pubkey(), 2_000_000_000).unwrap();
@@ -61,7 +67,8 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
             state,
             vault: vault_pda,
             system_program: system_program::ID,
-        }.to_account_metas(None),
+        }
+        .to_account_metas(None),
     );
 
     send(&mut svm, &owner, &[&owner], initialize).unwrap();
@@ -70,13 +77,15 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
         program_id,
         &vault::instruction::Deposit {
             amount: 200_000_000,
-        }.data(),
+        }
+        .data(),
         vault::accounts::Deposit {
             owner: owner.pubkey(),
             state,
             vault: vault_pda,
             system_program: system_program::ID,
-        }.to_account_metas(None),
+        }
+        .to_account_metas(None),
     );
 
     send(&mut svm, &owner, &[&owner], deposit).unwrap();
@@ -105,9 +114,10 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
             state,
             vault: vault_pda,
             system_program: system_program::ID,
-        }.to_account_metas(None),
+        }
+        .to_account_metas(None),
     );
-        
+
     assert!(send(&mut svm, &attacker, &[&attacker], attacker_withdraw).is_err());
     assert_eq!(svm.get_account(&vault_pda).unwrap().lamports, 120_000_000);
 
@@ -119,9 +129,10 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
             state,
             vault: vault_pda,
             system_program: system_program::ID,
-        }.to_account_metas(None),
+        }
+        .to_account_metas(None),
     );
-    
+
     send(&mut svm, &owner, &[&owner], close).unwrap();
     assert!(svm.get_account(&state).is_none());
     assert!(svm
