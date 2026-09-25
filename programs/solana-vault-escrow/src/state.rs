@@ -22,3 +22,17 @@ pub struct Offer {
     pub offer_bump: u8,
     pub vault_bump: u8,
 }
+
+/// A two-asset vault whose fungible shares are always redeemable pro rata.
+///
+/// Redemption transfers the underlying assets themselves instead of requiring
+/// the vault to sell them for a liquid settlement asset first.
+#[account]
+#[derive(InitSpace)]
+pub struct InKindPool {
+    pub authority: Pubkey,
+    pub asset_a_mint: Pubkey,
+    pub asset_b_mint: Pubkey,
+    pub share_mint: Pubkey,
+    pub bump: u8,
+}

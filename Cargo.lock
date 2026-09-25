@@ -3708,10 +3708,13 @@ dependencies = [
  "anchor-lang",
  "anchor-spl",
  "litesvm",
+ "solana-clock 3.2.1",
  "solana-keypair",
  "solana-message",
+ "solana-program-pack",
  "solana-signer",
  "solana-transaction",
+ "spl-token-interface",
 ]
 
 [[package]]

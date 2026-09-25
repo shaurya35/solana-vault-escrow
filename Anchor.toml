@@ -8,8 +8,6 @@ skip-lint = false
 
 [programs.localnet]
 solana_vault_escrow = "AcHkrwz4uVrpue7ja19ezxSNfZDKTUucRjw3yQd4oXW1"
-escrow = "2r3Em2vsuSfcCcU9qPDMM7fHQ2hDUWDDehwkJkpJHjYt"
-in_kind_vault = "8TGDjdyvJTcrW6H4ge6TANuxTcm48wWasPWJx9s21uHc"
 
 [provider]
 cluster = "localnet"

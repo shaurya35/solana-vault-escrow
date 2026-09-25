@@ -91,6 +91,19 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
     send(&mut svm, &owner, &[&owner], deposit).unwrap();
     assert_eq!(svm.get_account(&vault_pda).unwrap().lamports, 200_000_000);
 
+    let zero_deposit = Instruction::new_with_bytes(
+        program_id,
+        &vault::instruction::Deposit { amount: 0 }.data(),
+        vault::accounts::Deposit {
+            owner: owner.pubkey(),
+            state,
+            vault: vault_pda,
+            system_program: system_program::ID,
+        }
+        .to_account_metas(None),
+    );
+    assert!(send(&mut svm, &owner, &[&owner], zero_deposit).is_err());
+
     let withdraw = Instruction::new_with_bytes(
         program_id,
         &vault::instruction::Withdraw { amount: 80_000_000 }.data(),
@@ -105,6 +118,22 @@ fn initialize_deposit_withdraw_reject_attacker_and_close() {
 
     send(&mut svm, &owner, &[&owner], withdraw).unwrap();
     assert_eq!(svm.get_account(&vault_pda).unwrap().lamports, 120_000_000);
+
+    let excessive_withdrawal = Instruction::new_with_bytes(
+        program_id,
+        &vault::instruction::Withdraw {
+            amount: 120_000_001,
+        }
+        .data(),
+        vault::accounts::Withdraw {
+            owner: owner.pubkey(),
+            state,
+            vault: vault_pda,
+            system_program: system_program::ID,
+        }
+        .to_account_metas(None),
+    );
+    assert!(send(&mut svm, &owner, &[&owner], excessive_withdrawal).is_err());
 
     let attacker_withdraw = Instruction::new_with_bytes(
         program_id,

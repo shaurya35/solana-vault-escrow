@@ -59,4 +59,20 @@ pub mod vault {
     pub fn refund(ctx: Context<Refund>) -> Result<()> {
         instructions::escrow::refund(ctx)
     }
+
+    pub fn initialize_in_kind_pool(ctx: Context<InitializeInKindPool>) -> Result<()> {
+        instructions::in_kind::initialize(ctx)
+    }
+
+    pub fn deposit_in_kind(
+        ctx: Context<DepositInKind>,
+        amount_a: u64,
+        amount_b: u64,
+    ) -> Result<()> {
+        instructions::in_kind::deposit(ctx, amount_a, amount_b)
+    }
+
+    pub fn redeem_in_kind(ctx: Context<RedeemInKind>, shares: u64) -> Result<()> {
+        instructions::in_kind::redeem(ctx, shares)
+    }
 }

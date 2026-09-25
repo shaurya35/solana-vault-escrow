@@ -1,7 +1,7 @@
 [package]
 name = "solana-vault-escrow"
 version = "0.1.0"
-description = "Created with Anchor"
+description = "Anchor SOL vault, SPL token escrow, timed settlement, and in-kind redemption"
 edition.workspace = true
 rust-version.workspace = true
 
@@ -30,6 +30,9 @@ solana-message = "3.0.1"
 solana-transaction = "3.0.2"
 solana-signer = "3.0.0"
 solana-keypair = "3.0.1"
+solana-clock.workspace = true
+solana-program-pack.workspace = true
+spl-token-interface.workspace = true
 
 
 [lints.rust]

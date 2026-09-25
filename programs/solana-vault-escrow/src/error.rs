@@ -18,6 +18,14 @@ pub enum VaultEscrowError {
     NotExpired,
     #[msg("A nonzero expiry must be in the future")]
     BadExpiry,
+    #[msg("Arithmetic overflow")]
+    MathOverflow,
+    #[msg("The supplied assets are not proportional to the pool reserves")]
+    UnbalancedDeposit,
+    #[msg("The requested redemption would return no assets")]
+    RedemptionTooSmall,
+    #[msg("The share supply is empty")]
+    EmptyShareSupply,
 }
 
 pub type VaultError = VaultEscrowError;
